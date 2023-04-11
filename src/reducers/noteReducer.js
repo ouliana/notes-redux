@@ -1,6 +1,19 @@
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
-export default function noteReducer(state = [], action) {
+const initialState = [
+  {
+    content: 'reducer defines how redux store works',
+    important: true,
+    id: 1,
+  },
+  {
+    content: 'state of store can contain any data',
+    important: false,
+    id: 2,
+  },
+];
+
+export default function noteReducer(state = initialState, action) {
   switch (action.type) {
     case 'NEW_NOTE':
       return [...state, action.payload];
@@ -36,5 +49,6 @@ export function toggleImportanceOf(id) {
 }
 
 const generateId = () => {
-  return uuidv4();
+  // return uuidv4();
+  return crypto.randomUUID();
 };
