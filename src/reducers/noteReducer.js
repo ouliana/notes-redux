@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = [
@@ -19,28 +19,27 @@ const noteSlice = createSlice({
   initialState,
   reducers: {
     createNote(state, action) {
-      var content = action.payload;
-      state.push({
-        content,
-        important: false,
-        id: generateId(),
-      });
+      state.push(action.payload);
     },
     toggleImportanceOf(state, action) {
-      var id = action.payload;
-      var noteToChange = state.find(n => n.id === id);
-      var changedNote = {
-        ...noteToChange,
-        important: !noteToChange.important,
-      };
-      return state.map(note => (note.id !== id ? note : changedNote));
+      var changedNote = action.payload;
+      return state.map(note =>
+        note.id !== changedNote.id ? note : changedNote
+      );
+    },
+    appendNote(state, action) {
+      state.push(action.payload);
+    },
+    setNotes(state, action) {
+      return action.payload;
     },
   },
 });
 
-const generateId = () => {
-  return uuidv4();
-};
+// const generateId = () => {
+//   return uuidv4();
+// };
 
-export const { createNote, toggleImportanceOf } = noteSlice.actions;
+export const { createNote, toggleImportanceOf, appendNote, setNotes } =
+  noteSlice.actions;
 export default noteSlice.reducer;
