@@ -1,26 +1,11 @@
 // import { v4 as uuidv4 } from 'uuid';
 import { createSlice } from '@reduxjs/toolkit';
-
-const initialState = [
-  {
-    content: 'reducer defines how redux store works',
-    important: true,
-    id: 1,
-  },
-  {
-    content: 'state of store can contain any data',
-    important: false,
-    id: 2,
-  },
-];
+import noteService from '../services/notes';
 
 const noteSlice = createSlice({
   name: 'notes',
-  initialState,
+  initialState: [],
   reducers: {
-    createNote(state, action) {
-      state.push(action.payload);
-    },
     toggleImportanceOf(state, action) {
       var changedNote = action.payload;
       return state.map(note =>
@@ -40,6 +25,20 @@ const noteSlice = createSlice({
 //   return uuidv4();
 // };
 
-export const { createNote, toggleImportanceOf, appendNote, setNotes } =
-  noteSlice.actions;
+export function initializeNotes() {
+  return async function (dispatch) {
+    var notes = await noteService.getAll();
+    dispatch(setNotes(notes));
+  };
+}
+
+export function createNote(content) {
+  return async function (dispatch) {
+    var newNote = await noteService.createNew(content);
+    dispatch(appendNote(newNote));
+  };
+}
+
+export const { toggleImportanceOf, appendNote, setNotes } = noteSlice.actions;
+
 export default noteSlice.reducer;
