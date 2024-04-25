@@ -1,3 +1,3 @@
-# Study project 
+# Еxercise 
 
-This is a learning exercise. Full stack open., Part 6 Advanced state management.
+Full stack open., Part 6 Advanced state management.
